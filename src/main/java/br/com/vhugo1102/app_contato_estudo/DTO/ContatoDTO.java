@@ -1,51 +1,59 @@
 package br.com.vhugo1102.app_contato_estudo.DTO;
 
+import br.com.vhugo1102.app_contato_estudo.enums.TipoContato;
+import br.com.vhugo1102.app_contato_estudo.model.Contato;
+
 public class ContatoDTO {
 
-	private Long id;
-	private int tipoContato; // Usando o código do tipo de contato
-	private String contato;
-	private Long pessoaId; // Referência ao ID da Pessoa
+    private Long id;
+    private TipoContato tipoContato;  // Usando enum TipoContato
+    private String contato;
+    private PessoaDTO pessoa;  // Retornando PessoaDTO completo
 
-	// Construtor
-	public ContatoDTO(Long id, int tipoContato, String contato, Long pessoaId) {
-		this.id = id;
-		this.tipoContato = tipoContato;
-		this.contato = contato;
-		this.pessoaId = pessoaId;
-	}
+    public ContatoDTO() {}
 
-	public Long getId() {
-		return id;
-	}
+    public ContatoDTO(Contato contato, PessoaDTO pessoa) {
+        this.id = contato.getId();
+        this.tipoContato = contato.getTipoContato();
+        this.contato = contato.getContato();
+        this.pessoa = pessoa;  // PessoaDTO completo
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public int getTipoContato() {
-		return tipoContato;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setTipoContato(int tipoContato) {
-		this.tipoContato = tipoContato;
-	}
+    public TipoContato getTipoContato() {
+        return tipoContato;
+    }
 
-	public String getContato() {
-		return contato;
-	}
+    public void setTipoContato(TipoContato tipoContato) {
+        this.tipoContato = tipoContato;
+    }
 
-	public void setContato(String contato) {
-		this.contato = contato;
-	}
+    public String getContato() {
+        return contato;
+    }
 
-	public Long getPessoaId() {
-		return pessoaId;
-	}
+    public void setContato(String contato) {
+        this.contato = contato;
+    }
 
-	public void setPessoaId(Long pessoaId) {
-		this.pessoaId = pessoaId;
-	}
-	
-	
+    public PessoaDTO getPessoa() {
+        return pessoa;
+    }
+
+    public void setPessoa(PessoaDTO pessoa) {
+        this.pessoa = pessoa;
+    }
+
+    @Override
+    public String toString() {
+        return "ContatoDTO [id=" + id + ", tipoContato=" + tipoContato + ", contato=" + contato
+                + ", pessoa=" + pessoa + "]";
+    }
 }
