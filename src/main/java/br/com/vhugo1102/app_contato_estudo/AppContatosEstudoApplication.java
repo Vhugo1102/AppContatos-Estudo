@@ -1,4 +1,4 @@
-package br.com.vhugo1102.AppContatos_Estudo;
+package br.com.vhugo1102.app_contato_estudo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
