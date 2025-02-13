@@ -5,20 +5,33 @@ import br.com.vhugo1102.app_contato_estudo.model.Contato;
 
 public class ContatoDTO {
 
-    private Long id;
-    private TipoContato tipoContato;  // Usando enum TipoContato
+	private Long id;
+    private TipoContato tipoContato;
     private String contato;
-    private PessoaDTO pessoa;  // Retornando PessoaDTO completo
+    private Long idPessoa;
+    private PessoaDTO pessoaDTO; // Nova propriedade para PessoaDTO
 
+    // Construtor vazio para o DTO
     public ContatoDTO() {}
 
-    public ContatoDTO(Contato contato, PessoaDTO pessoa) {
+ // Construtor com Contato e PessoaDTO
+    public ContatoDTO(Contato contato, PessoaDTO pessoaDTO) {
         this.id = contato.getId();
         this.tipoContato = contato.getTipoContato();
         this.contato = contato.getContato();
-        this.pessoa = pessoa;  // PessoaDTO completo
+        this.idPessoa = contato.getPessoa().getId();  // Pegando o ID da pessoa
+        this.pessoaDTO = pessoaDTO; // Atribuindo PessoaDTO
     }
 
+    // Construtor com os dados diretamente
+    public ContatoDTO(Long id, TipoContato tipoContato, String contato, Long idPessoa) {
+        this.id = id;
+        this.tipoContato = tipoContato;
+        this.contato = contato;
+        this.idPessoa = idPessoa;
+    }
+
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -43,17 +56,25 @@ public class ContatoDTO {
         this.contato = contato;
     }
 
-    public PessoaDTO getPessoa() {
-        return pessoa;
+    public Long getIdPessoa() {
+        return idPessoa;
     }
 
-    public void setPessoa(PessoaDTO pessoa) {
-        this.pessoa = pessoa;
+    public void setIdPessoa(Long idPessoa) {
+        this.idPessoa = idPessoa;
     }
+    
+    public PessoaDTO getPessoaDTO() {
+		return pessoaDTO;
+	}
 
-    @Override
+	public void setPessoaDTO(PessoaDTO pessoaDTO) {
+		this.pessoaDTO = pessoaDTO;
+	}
+
+	@Override
     public String toString() {
         return "ContatoDTO [id=" + id + ", tipoContato=" + tipoContato + ", contato=" + contato
-                + ", pessoa=" + pessoa + "]";
+                + ", idPessoa=" + idPessoa + "]";
     }
 }
