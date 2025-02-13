@@ -67,8 +67,14 @@ public class PessoaService {
         return null;
     }
 
-    // CRUD - DELETE
-    public void delete(Long id) {
-        pessoaRepository.deleteById(id);
+ // CRUD - DELETE
+    public boolean delete(Long id) {
+        Optional<Pessoa> pessoa = pessoaRepository.findById(id); // Verifica se a pessoa existe
+        if (pessoa.isPresent()) {
+            pessoaRepository.deleteById(id); // Deleta a pessoa se encontrada
+            return true; // Retorna true se a exclusão for bem-sucedida
+        }
+        return false; // Retorna false se a pessoa não for encontrada
     }
+
 }
