@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.vhugo1102.app_contato_estudo.DTO.ContatoDTO;
 import br.com.vhugo1102.app_contato_estudo.model.Contato;
 import br.com.vhugo1102.app_contato_estudo.service.ContatoService;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/contatos") // Caminho para os endpoints de Contato
@@ -25,6 +26,7 @@ public class ContatoController {
     private ContatoService contatoService;
 
     // Criar um novo contato - Endpoint: POST /contatos
+    @Operation(summary = "Cria um novo contato para uma pessoa.")
     @PostMapping
     public ResponseEntity<ContatoDTO> criarContato(@RequestBody Contato contato) {
         ContatoDTO novoContatoDTO = contatoService.save(contato);

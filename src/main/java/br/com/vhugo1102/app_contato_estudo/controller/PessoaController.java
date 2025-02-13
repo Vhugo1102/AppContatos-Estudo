@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.vhugo1102.app_contato_estudo.DTO.PessoaDTO;
 import br.com.vhugo1102.app_contato_estudo.model.Pessoa;
 import br.com.vhugo1102.app_contato_estudo.service.PessoaService;
+import io.swagger.v3.oas.annotations.Operation;
 
 @RestController
 @RequestMapping("/pessoa") // caminho para os endpoint
@@ -26,21 +27,23 @@ public class PessoaController {
 	
 
 	// Criar uma nova Pessoa - Endpoint: POST /pessoas
-	@PostMapping
+    @Operation(summary = "Cria uma nova pessoa. Preenche todos os dados obrigatórios para adicionar uma pessoa.")
+    @PostMapping
 	public ResponseEntity<PessoaDTO> criarPessoa(@RequestBody Pessoa pessoa) {
 		PessoaDTO novaPessoaDTO = pessoaService.save(pessoa); // Correto: recebe um PessoaDTO
 		return ResponseEntity.ok(novaPessoaDTO);
 	}
 
 	// Buscar pessoa por ID - Endpoint: GET /pessoas/{id}
-
-	@GetMapping("/{id}")
+    @Operation(summary = "Busca uma pessoa pelo ID fornecido. Retorna detalhes da pessoa.")
+    @GetMapping("/{id}")
 	public ResponseEntity<PessoaDTO> buscarPorId(@PathVariable Long id) {
 		Optional<PessoaDTO> pessoaDTO = pessoaService.findById(id);
 		return pessoaDTO.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
 	}
-
-	@PutMapping("/{id}")
+    
+    @Operation(summary = "Atualiza uma pessoa existente com base no ID fornecido.")
+    @PutMapping("/{id}")
 	public ResponseEntity<PessoaDTO> atualizarPessoa(@PathVariable Long id, @RequestBody Pessoa pessoa) {
 		pessoa.setId(id); // Define o ID recebido na URL
 		PessoaDTO pessoaAtualizada = pessoaService.update(pessoa);
@@ -51,7 +54,8 @@ public class PessoaController {
 
 		return ResponseEntity.ok(pessoaAtualizada); // Retorna 200 com o DTO atualizado
 	}
-
+    
+    @Operation(summary = "Deleta uma pessoa com base no ID fornecido.")
 	@DeleteMapping("/{id}") // DELETE /pessoas/{id}
 	public ResponseEntity<Void> deletarPessoa(@PathVariable Long id) {
 	    boolean isDeleted = pessoaService.delete(id); // Chama o serviço para excluir a pessoa

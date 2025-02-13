@@ -3,6 +3,7 @@ package br.com.vhugo1102.app_contato_estudo.model;
 import java.util.Objects;
 
 import br.com.vhugo1102.app_contato_estudo.enums.TipoContato;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -11,6 +12,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -26,8 +28,10 @@ public class Contato {
     private TipoContato tipoContato;
 	@Column(nullable = false)
     private String contato;
-	@JoinColumn(name ="pessoa_id", nullable = false)
-    private Pessoa pessoa;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "pessoa_id", nullable = false)
+	private Pessoa pessoa;
 
     // Construtor padrão
     public Contato() {}
