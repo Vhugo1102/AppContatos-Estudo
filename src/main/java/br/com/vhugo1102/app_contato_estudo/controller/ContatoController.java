@@ -54,10 +54,8 @@ public class ContatoController {
         Contato contatoSalvo = contatoRepository.save(novoContato);
 
         // Criar o ContatoDTO para a resposta
-     // Criar o ContatoDTO com o Contato e a PessoaDTO
         ContatoDTO responseDTO = new ContatoDTO(contatoSalvo, new PessoaDTO(contatoSalvo.getPessoa()));
 
-        // Retornar a resposta com o ContatoDTO
         return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO); // Retorna 201 Created
     }
 
@@ -81,16 +79,22 @@ public class ContatoController {
         return ResponseEntity.ok(contatosDTO);  // Retorna 200 OK com a lista de ContatoDTOs
     }
 
-    // Atualizar um contato - Endpoint: PUT /contatos/{id}
-    @Operation(summary = "Atualiza as informações de um contato.")
     @PutMapping("/{id}")
-    public ResponseEntity<ContatoDTO> atualizarContato(@PathVariable Long id, @RequestBody Contato contato) {
-        contato.setId(id);  // Define o ID recebido na URL
-        ContatoDTO contatoAtualizado = contatoService.update(contato);
-        if (contatoAtualizado != null) {
-            return ResponseEntity.ok(contatoAtualizado);  // Retorna 200 OK com o ContatoDTO atualizado
-        }
-        return ResponseEntity.notFound().build(); // Retorna 404 se o contato não for encontrado
+    public ResponseEntity<ContatoDTO> atualizarContato(@PathVariable Long id, @RequestBody ContatoDTO contatoDTO) {
+        // Buscar o contato original
+        Contato contato = contatoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Contato não encontrado"));
+
+        // Atualizar o contato
+        contato.setContato(contatoDTO.getContato());
+        contato.setTipoContato(contatoDTO.getTipoContato());
+
+        // Salvar as alterações
+        Contato contatoAtualizado = contatoRepository.save(contato);
+
+        // Criar o ContatoDTO para resposta
+        ContatoDTO responseDTO = new ContatoDTO(contatoAtualizado, new PessoaDTO(contatoAtualizado.getPessoa()));
+        return ResponseEntity.ok(responseDTO);  // Retorna 200 OK
     }
 
     // Deletar um contato - Endpoint: DELETE /contatos/{id}
